@@ -43,7 +43,7 @@
 #           git push origin main --follow-tags
 
 # adicinado nova configuração
-name: Manual Release with Release Please
+name: Manual Release (CLI)
 
 on:
   workflow_dispatch:
@@ -55,14 +55,33 @@ permissions:
 
 jobs:
   release:
-    name: Create Release PR and Tag
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run Release Please
-        uses: googleapis/release-please-action@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          release-type: node
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: main
-          skip-labeling: true # ou false se você quiser usar labels
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install release-please CLI
+        run: npm install --no-save release-please
+
+      - name: Run release-please (CLI)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx release-please release-pr \
+            --token="${GITHUB_TOKEN}" \
+            --repo-url="${{ github.repository }}" \
+            --release-type=node \
+            --target-branch=main \
+            --skip-labeling \
+            --default-branch=main
