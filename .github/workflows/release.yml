@@ -49,9 +49,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write          # Permite criar commits, tags e releases
-  pull-requests: write     # Permite abrir PRs de versão
-  issues: write            # Permite criar labels automaticamente
+  contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
   release:
@@ -59,9 +59,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Release using Release Please
+      - name: Run Release Please
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-labeling: false
+          target-branch: main
+          skip-labeling: true # ou false se você quiser usar labels
