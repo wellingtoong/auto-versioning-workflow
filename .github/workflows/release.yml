@@ -47,24 +47,21 @@ name: Manual Release with Release Please
 
 on:
   workflow_dispatch:
-    inputs:
-      release_type:
-        description: 'Tipo de release (patch, minor, major ou versão exata como 1.2.3)'
-        required: false
+
+permissions:
+  contents: write          # Permite criar commits, tags e releases
+  pull-requests: write     # Permite abrir PRs de versão
+  issues: write            # Permite criar labels automaticamente
 
 jobs:
   release:
+    name: Create Release PR and Tag
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
-      - name: Release with release-please
+      - name: Release using Release Please
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
-          package-name: auto-versioning-workflow
-          default-branch: main
           token: ${{ secrets.GITHUB_TOKEN }}
-          bump-minor-pre-major: true
+          skip-labeling: false
