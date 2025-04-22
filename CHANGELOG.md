@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/wellingtoong/auto-versioning-workflow/compare/v1.0.1...v1.0.2) (2025-04-22)
+
+
+### Features
+
+* add new file 6 ([5bf2e29](https://github.com/wellingtoong/auto-versioning-workflow/commit/5bf2e29809706b4ee53ff1e6feeaf5893bd8f8dc))
+* add new file 7 ([d805e47](https://github.com/wellingtoong/auto-versioning-workflow/commit/d805e47d03a46869f90b03ea26c6fe90dbb89d26))
+
 ### [1.0.1](https://github.com/wellingtoong/auto-versioning-workflow/compare/v1.0.0...v1.0.1) (2025-04-22)
 
 
