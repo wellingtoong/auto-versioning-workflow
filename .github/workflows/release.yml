@@ -1,65 +1,23 @@
-# name: Manual Release
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       release_type:
-#         description: 'Tipo de release (patch, minor, major ou versão exata como 1.2.3)'
-#         required: true
-#         default: 'patch'
-
-# jobs:
-#   release:
-#     name: Generate Tag and Changelog
-#     runs-on: ubuntu-latest
-    
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v4
-#         with:
-#           fetch-depth: 0  
-
-#       - name: Setup Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: 18
-
-#       - name: Install dependencies
-#         run: npm ci
-
-#       - name: Configure Git User
-#         run: |
-#           git config user.name "wellingtoong"
-#           git config user.email "wellington.gonzalez@hotmail.com"
-
-#       - name: Run standard-version
-#         run: |
-#           npx standard-version --release-as ${{ github.event.inputs.release_type }}
-
-#       - name: Push changes and tag to main
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         run: |
-#           git push origin main --follow-tags
-
-# adicinado nova configuração
-name: Release Direct with Manifest
+name: Manual Release
 
 on:
   workflow_dispatch:
-
-permissions:
-  contents: write
+    inputs:
+      release_type:
+        description: 'Tipo de release (patch, minor, major ou versão exata como 1.2.3)'
+        required: true
+        default: 'patch'
 
 jobs:
   release:
+    name: Generate Tag and Changelog
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -69,16 +27,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install release-please
-        run: npm install --no-save release-please
+      - name: Configure Git User
+        run: |
+          git config user.name "wellingtoong"
+          git config user.email "wellington.gonzalez@hotmail.com"
 
-      - name: Run release-please (github-release)
+      - name: Run standard-version
+        run: |
+          npx standard-version --release-as ${{ github.event.inputs.release_type }}
+
+      - name: Push changes and tag to main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx release-please github-release \
-            --token=${GITHUB_TOKEN} \
-            --repo-url=${{ github.repository }} \
-            --default-branch=main \
-            --config-file=release-please-config.json \
-            --manifest-file=.release-please-manifest.json
+          git push origin main --follow-tags

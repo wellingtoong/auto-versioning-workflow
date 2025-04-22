@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/wellingtoong/auto-versioning-workflow#readme",
   "devDependencies": {
-    "release-please": "^17.0.0",
     "standard-version": "^9.5.0"
   }
 }
