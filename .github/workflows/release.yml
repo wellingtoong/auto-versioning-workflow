@@ -12,7 +12,7 @@ jobs:
   release:
     name: Generate Tag and Changelog
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,6 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Configure Git User
+        run: |
+          git config user.name "wellingtoong"
+          git config user.email "wellington.gonzalez@hotmail.com"
+
       - name: Run standard-version
         run: |
           npx standard-version --release-as ${{ github.event.inputs.release_type }}
@@ -35,7 +40,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
           git push origin main --follow-tags
