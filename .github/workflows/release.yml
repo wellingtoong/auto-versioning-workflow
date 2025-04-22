@@ -42,6 +42,7 @@
 #         run: |
 #           git push origin main --follow-tags
 
+# adicinado nova configuração
 name: Manual Release with Release Please
 
 on:
