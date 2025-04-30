@@ -1,43 +1,66 @@
-name: Manual Release
+# name: Manual Release
+
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       release_type:
+#         description: 'Tipo de release (patch, minor, major ou versão exata como 1.2.3)'
+#         required: true
+#         default: 'patch'
+
+# jobs:
+#   release:
+#     name: Generate Tag and Changelog
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0  
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Configure Git User
+#         run: |
+#           git config user.name "wellingtoong"
+#           git config user.email "wellington.gonzalez@hotmail.com"
+
+#       - name: Run standard-version
+#         run: |
+#           npx standard-version --release-as ${{ github.event.inputs.release_type }}
+
+#       - name: Push changes and tag to main
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: |
+#           git push origin main --follow-tags
+
+name: Publicar versão do Jira
 
 on:
-  workflow_dispatch:
-    inputs:
-      release_type:
-        description: 'Tipo de release (patch, minor, major ou versão exata como 1.2.3)'
-        required: true
-        default: 'patch'
+  repository_dispatch:
+    types: [jira_release]
 
 jobs:
-  release:
-    name: Generate Tag and Changelog
+  publish:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
+      - name: Checkout código
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Configure Git User
+      - name: Print dados da versão
         run: |
-          git config user.name "wellingtoong"
-          git config user.email "wellington.gonzalez@hotmail.com"
+          echo "Versão: ${{ github.event.client_payload.version }}"
+          echo "Descrição: ${{ github.event.client_payload.description }}"
+          echo "Projeto: ${{ github.event.client_payload.project }}"
 
-      - name: Run standard-version
+      - name: Rodar scripts de publicação
         run: |
-          npx standard-version --release-as ${{ github.event.inputs.release_type }}
-
-      - name: Push changes and tag to main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git push origin main --follow-tags
+          echo "Aqui você pode: gerar release notes, criar tag, publicar pacote, etc."
