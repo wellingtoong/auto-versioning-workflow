@@ -60,6 +60,9 @@ jobs:
           echo "Versão: ${{ github.event.client_payload.version }}"
           echo "Descrição: ${{ github.event.client_payload.description }}"
           echo "Projeto: ${{ github.event.client_payload.project }}"
+          echo "Release Note: ${{ github.event.client_payload.releaseNote }}"
+          echo "Data de início do usuário: ${{ github.event.client_payload.userStartDate }}"
+          echo "Data de lançamento do usuário: ${{ github.event.client_payload.userReleaseDate }}"
 
       - name: Rodar scripts de publicação
         run: |
