@@ -67,3 +67,19 @@ jobs:
       - name: Rodar scripts de publicação
         run: |
           echo "Aqui você pode: gerar release notes, criar tag, publicar pacote, etc."
+
+      - name: Criar tag da versão
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag ${{ github.event.client_payload.version }}
+          git push origin ${{ github.event.client_payload.version }}
+
+      - name: Criar release no GitHub
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.client_payload.version }}
+          name: Versão ${{ github.event.client_payload.version }}
+          body: ${{ github.event.client_payload.releaseNote }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
